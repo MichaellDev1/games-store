@@ -1,11 +1,13 @@
+'use client'
 import Link from 'next/link'
-import React from 'react'
+import { useState } from 'react'
 import { CgGames } from 'react-icons/cg'
 import { VscFolderLibrary } from 'react-icons/vsc'
 import { RiChatSmile3Fill } from 'react-icons/ri'
 import { FaUserFriends } from 'react-icons/fa'
 import { LuSettings } from 'react-icons/lu'
 import { IoMdHelpCircle } from 'react-icons/io'
+import { AiOutlineLogin } from 'react-icons/ai'
 
 type Props = {
   menuHidden: boolean
@@ -14,37 +16,42 @@ type Props = {
 const navLinks = [
   {
     icon: <CgGames />,
-    href: '/games',
+    href: '/',
     label: 'Games store'
   },
   {
     icon: <VscFolderLibrary />,
-    href: '/library',
-    label: 'Library'
+    href: '/favorites',
+    label: 'Favorites'
   },
   {
     icon: <RiChatSmile3Fill />,
-    href: '/community',
-    label: 'Community'
+    href: '/explore',
+    label: 'explore'
   }, {
     icon: <FaUserFriends />,
-    href: '/friends',
-    label: 'Friends'
+    href: '/balance',
+    label: 'Balance'
   },
 ]
 
 export default function Menu({ menuHidden }: Props) {
-  const x= '/games'
+  const initialState = window.location.pathname
+  const [pathname, setPathName] = useState(initialState)
+
+  const handleClick = (href: string) => {
+    setPathName(href)
+  }
+
   return <div className={`w-52 h-full fixed left-0 top-0 bg-transparent z-40 p-10 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'}`}>
     <div>
       <div className='pb-16 '>
         <h4 className='text-2xl'>Mishelds</h4>
       </div>
-
       <nav>
         <ul className='flex flex-col gap-7'>
           {navLinks.map(({ icon, href, label }) => (
-            <li key={label} className={`list-none font-light ${x == href ? 'text-[var(--color-gradient)]' : 'text-[#fff]'} text-[15px]`}>
+            <li key={label} onClick={() => handleClick(href)} className={`list-none font-light ${pathname == href ? 'text-[var(--color-gradient)]' : 'text-[#fff]'} text-[15px]`}>
               <Link href={href} className='flex items-center gap-2'>
                 <span className='text-[20px] text-[#ffffff8f]'>{icon}</span>
                 {label}
@@ -74,6 +81,16 @@ export default function Menu({ menuHidden }: Props) {
           </Link>
         </li>
       </ul>
+
+
+    </div>
+    <div className='mt-28'>
+      <Link href={'/help'} className='flex items-center gap-2'>
+        <span className='text-[20px] text-[#ffffff8f]'>
+          <AiOutlineLogin />
+        </span>
+        Log Out
+      </Link>
     </div>
   </div>
 

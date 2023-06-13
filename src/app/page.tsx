@@ -1,14 +1,12 @@
 'use client'
-import GradientRounded from '@/components/GradientRounded'
-import Menu from '@/components/Menu'
-import jsonGames from '@/games.json'
 import { useEffect, useState } from "react"
+import GradientRounded from '@/components/GradientRounded'
+import jsonGames from '@/games.json'
 import Hero from '@/components/Hero'
 import SectionOffers from '@/components/SectionOffers'
-import Header from '@/components/Header'
 
 export default function Home() {
-  const [games, setGames] = useState([])
+  const [games, setGames] = useState<any>([])
   const [num, setNum] = useState<number>(0)
 
   useEffect(() => {
@@ -18,7 +16,7 @@ export default function Home() {
   const handleChangeHero = (inx: number): void => {
     setNum(inx)
   }
-
+  
   return (
     <section>
       <GradientRounded />

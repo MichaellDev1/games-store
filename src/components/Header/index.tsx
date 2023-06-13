@@ -1,6 +1,7 @@
 import { RiSearch2Line, RiNotification2Line } from 'react-icons/ri'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { TbShoppingBag } from 'react-icons/tb'
+import Image from 'next/image'
 
 export default function Header() {
     return <header className='flex items-center w-full justify-between h-[100px] gap-5 z-30'>
@@ -22,7 +23,9 @@ export default function Header() {
                 </button>
             </div>
             <button className='flex gap-2 ml-3 cursor-pointer items-center'>
-                <div className='text-[var(--texticon-color)] bg-[var(--bg-icons)] w-[39px] h-[39px] bg-white text-[17px] p-3 rounded-full'></div>
+                <div className='text-[var(--texticon-color)] bg-[var(--bg-icons)] w-[39px] h-[39px] bg-white text-[17px] border border-[var(--color-gradient)] rounded-full overflow-hidden relative'>
+                    <Image src={'https://www.getillustrations.com/photos/pack/3d-avatar-male_lg.png'} alt='image user' width={400} height={400} className='w-full h-full object-cover' />
+                </div>
                 <span className='text-[15px]'>Michael Santucho</span>
                 <MdKeyboardArrowDown />
             </button>
