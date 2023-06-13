@@ -20,8 +20,14 @@ export const getGame = {
   },
   getAdditionsGame: ({ keyword }: { keyword: string }) => {
     return fetch(`${api_url}/games/${keyword}/additions?key=${api_key}`)
+      .then(res => res.json())
   },
   getVideoYtGame: (id: string) => {
     return fetch(`${api_url}/games/${id}/youtube?key=${api_key}`)
+      .then(res => res.json())
+  },
+  getTrailerGame: (id: string) => {
+    return fetch(`${api_url}/games/${id}/movies?key=${api_key}`)
+      .then(res => res.json())
   }
 }
