@@ -21,7 +21,7 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
       setAnimate(false)
       clearTimeout(intervalL)
     }, 600)
-  
+
     return () => clearTimeout(interval)
   }, [num, handleChangeHero])
 
@@ -36,6 +36,9 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
          }
 
 
+         .selected {
+          box-shadow: 0px 0px 17px #ff6b27;
+         }
 
          @keyframes startAnimate {
           0% {

@@ -35,7 +35,7 @@ const navLinks = [
 
 export default function Menu({ menuHidden }: Props) {
   const x= '/games'
-  return <div className={`w-64 h-full fixed left-0 top-0 bg-transparent z-40 p-10 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'}`}>
+  return <div className={`w-52 h-full fixed left-0 top-0 bg-transparent z-40 p-10 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'}`}>
     <div>
       <div className='pb-16 '>
         <h4 className='text-2xl'>Mishelds</h4>

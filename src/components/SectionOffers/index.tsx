@@ -1,20 +1,71 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import jsonX from '@/games.json'
+import { useEffect } from 'react'
+import { IoIosArrowForward } from 'react-icons/io'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function SectionOffers() {
-    return (
-        <section className='mt-5'>
-            <div className='w-full flex justify-between'>
-                <h3 className='text-base font-normal'>Special offers</h3>
-                <h3 className='text-sm font-normal'>Learn more</h3>
-            </div>
-            <div className='mt-2 flex gap-5'>
-                <div className='w-[350px] rounded-[22px] h-[300px] bg-slate-500'>
+  const [games, setGames] = useState([])
+  const refCarrousel: React.LegacyRef<HTMLDivElement> | null = useRef(null)
+  const refBtnLeft: React.LegacyRef<HTMLDivElement> | null = useRef(null)
+  const refBtnRight: React.LegacyRef<HTMLDivElement> | null = useRef(null)
+  const [num, setNum] = useState<number>(0)
 
-                </div>
-                <div className='w-[220px] rounded-[22px] h-[300px] bg-slate-500'>
+  useEffect(() => {
+    setGames(jsonX)
+    console.log(jsonX)
+  }, [])
 
-                </div>
+
+  const handleScrollBtn = (scrollLeft: boolean = false) => {
+    if (refCarrousel.current) {
+      const element = refCarrousel.current
+
+      scrollLeft
+        ? element.scrollLeft -= element.scrollLeft <= 0
+          ? 0
+          : element.clientWidth
+        : element.scrollLeft += element.scrollLeft >= element.scrollWidth
+          ? 0
+          : element.clientWidth
+    }
+  }
+
+  return (
+    <section className='mt-5'>
+      <div className='w-full mb-3 flex justify-between'>
+        <h3 className='text-base font-normal'>Special offers</h3>
+        <div className='flex items-center gap-2'>
+          <div ref={refBtnLeft} className='relative '>
+            <button className='w-[30px] h-[30px] cursor-pointer outline-nones items-center justify-center flex rounded-full bg-[#202020] rotate-180 text-base border-none text-white' onClick={() => handleScrollBtn(true)} style={{ boxShadow: '0px 1px 4px rgba(0,0,0,.1607843137)' }}>
+              <IoIosArrowForward />
+            </button>
+          </div>
+          <div ref={refBtnRight} className='relative flex justify-center'>
+            <button className='w-[30px] h-[30px] cursor-pointer outline-nones items-center text-base justify-center text-white flex rounded-full  bg-[#202020] border-none' onClick={() => handleScrollBtn(false)} style={{ boxShadow: '0px 1px 4px rgba(0,0,0,.1607843137)' }}><IoIosArrowForward />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className='w-full overflow-hidden h-[290px] mb-[5px] box-border relative' >
+        <div className='relative carrousel overflow-y-hidden h-full overflow-x-hidden scroll-smooth' ref={refCarrousel}>
+          <section className='flex gap-[15px] h-full items-center'>
+            <div className='h-[100%] flex-shrink-0 w-[330px] outline-none overflow-hidden relative rounded-xl'>
+            <Image src={games[0]?.background_image} alt={`image background game ${games[0]?.name}`} width={900} height={900} className='w-full h-full object-cover'/>
             </div>
-        </section>
-    )
+
+            {
+              games.slice(1, games.length).map((game: any) => (
+                <Link href={`/detail/${game.id}`} key={game.id} className='h-[100%] flex-shrink-0 overflow-hidden w-[190px] outline-none relative rounded-xl'>
+                  <Image src={game.background_image} alt={`image background game ${game.name}`} width={900} height={900} className='w-full h-full object-cover'/>
+                </Link>
+              ))
+            }
+          </section>
+        </div>
+      </div>
+    </section>
+  )
 }
