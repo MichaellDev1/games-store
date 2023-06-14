@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
+import './index.css'
 
 interface Props {
   games: any
@@ -9,6 +10,9 @@ interface Props {
 }
 
 export default function Hero({ games, handleChangeHero, num }: Props) {
+  const [isViewTags, setViewTags] = useState<boolean>(false)
+  const [isViewPlatForm, setViewPlatform] = useState(false)
+
   const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
@@ -17,7 +21,6 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
     }, 7000)
 
     setAnimate(true)
-
     const intervalL = setTimeout(() => {
       setAnimate(false)
       clearTimeout(intervalL)
@@ -26,61 +29,48 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
     return () => clearTimeout(interval)
   }, [num, handleChangeHero])
 
+  const handleViewMore = (isTags: boolean) => {
+    isTags ? setViewTags(!isViewTags) : setViewPlatform(!isViewPlatForm)
+  }
+
   return (
     <div>
-
-      <style jsx>
-        {
-          `
-         .animate {
-           animation: startAnimate .3s linear;
-         }
-
-
-         .selected {
-          box-shadow: 0px 0px 17px #ff6b27;
-         }
-
-         @keyframes startAnimate {
-          0% {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0px);
-          }
-         }
-
-         `
-        }
-      </style>
       {
         games && <>
           <div className='h-[400px] grid grid-cols-6 grid-rows-3 w-full gap-2'>
             <div className='bg-slate-600 rounded-[15px] relative overflow-hidden' style={{ gridColumn: '1/5', gridRow: '1/4' }}>
 
-              <ul className='absolute top-5 left-5 flex items-center gap-3 z-10'>
-                {games.tags.slice(0, 3).map((tag: any) => (
+              <ul className='absolute top-5 left-5 flex items-center flex-wrap gap-3 z-10'>
+
+
+                {games.tags.slice(0, isViewTags ? games.tags.length : 3).map((tag: any) => (
                   <li key={tag.name} className={`list-none bg-[#08080848] ${animate ? 'animate' : ''} py-[7px] px-3 rounded-3xl text-[11px] backdrop-blur-md font-light`}>
                     <span>{tag.name}</span>
                   </li>
                 ))}
-                {games.tags.length > 3 && <button className={`bg-[#08080848] ${animate ? 'animate' : ''}  py-2 px-3 rounded-3xl text-[14px] backdrop-blur-md font-normal`}>
+
+                {games.tags.length > 3 && <button className={`bg-[#08080848] ${animate ? 'animate' : ''}  py-2 px-3 rounded-3xl text-[14px] backdrop-blur-md font-normal`} onClick={() => handleViewMore(true)}>
                   <IoMdAdd />
                 </button>}
               </ul>
 
-              <ul className='absolute bottom-5 left-5 flex items-center gap-3 z-10'>
-                {games.parent_platforms?.slice(0, 3).map((platform: any) => (
+              <ul className='absolute bottom-5 left-5 flex flex-wrap items-center gap-3 z-10'>
+
+
+                {games.parent_platforms?.slice(0, isViewPlatForm ? games.parent_platforms.length : 3).map((platform: any) => (
                   <li key={platform.platform.name} className={`list-none bg-[#08080848]  animate py-[7px] px-3 rounded-3xl text-[11px] backdrop-blur-md font-light`}>
                     <span>{platform.platform.name}</span>
                   </li>
                 ))}
-                {games.parent_platforms?.length > 3 && <button className={`bg-[#08080848]  py-2 px-3 rounded-3xl text-[14px] backdrop-blur-md font-normal`}>
+
+                {games.parent_platforms?.length > 3 && <button className={`bg-[#08080848]  py-2 px-3 rounded-3xl text-[14px] backdrop-blur-md font-normal`} onClick={() => handleViewMore(false)}>
                   <IoMdAdd />
                 </button>}
               </ul>
+
+
+
+
               <div className={`absolute bottom-5 z-10 right-5 bg-[#08080848] py-1 px-3 rounded-3xl text-[14px] backdrop-blur-md font-normal  `}>
                 {games.rating}
               </div>

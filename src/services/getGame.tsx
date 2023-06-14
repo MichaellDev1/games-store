@@ -7,7 +7,7 @@ export const getGame = {
       .then(res => res.json())
   },
   getDetailGame: (id: string) => {
-    return fetch(`${api_url}`)
+    return fetch(`${api_url}/games/${id}?key=${api_key}`)
       .then(res => res.json())
   },
   getPlataform: () => {
@@ -15,7 +15,7 @@ export const getGame = {
       .then(res => res.json())
   },
   searchGame: ({ keyword }: { keyword: string }) => {
-    return fetch(`${api_url}/search=${keyword}?key=${api_key}`)
+    return fetch(`${api_url}/games?search=${keyword}&key=${api_key}`)
       .then(res => res.json())
   },
   getAdditionsGame: ({ keyword }: { keyword: string }) => {
@@ -28,6 +28,10 @@ export const getGame = {
   },
   getTrailerGame: (id: string) => {
     return fetch(`${api_url}/games/${id}/movies?key=${api_key}`)
+      .then(res => res.json())
+  },
+  getOrderBy: ({ ordering }: { ordering: string }) => {
+    return fetch(`${api_url}/games?ordering=${ordering}&key=${api_key}`)
       .then(res => res.json())
   }
 }
