@@ -1,0 +1,4 @@
+.input-search-header:focus~.menu-preview,
+.menu-preview:hover {
+    display: flex;
+}
