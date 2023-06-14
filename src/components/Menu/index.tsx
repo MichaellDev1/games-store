@@ -36,14 +36,14 @@ const navLinks = [
 ]
 
 export default function Menu({ menuHidden }: Props) {
-  const initialState = window.location.pathname
+  const initialState = location.pathname
   const [pathname, setPathName] = useState(initialState)
 
   const handleClick = (href: string) => {
     setPathName(href)
   }
 
-  return <div className={`w-52 h-full fixed left-0 top-0 bg-transparent z-40 p-7 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'}`}>
+  return <div className={`w-52 h-full fixed top-0 bg-transparent z-40 p-7 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'} lg:left-0 left-full`}>
     <div>
       <div className='pb-16'>
         <h4 className='text-2xl'>Mishelds</h4>
@@ -64,7 +64,6 @@ export default function Menu({ menuHidden }: Props) {
         </ul>
       </nav>
     </div>
-
     <div className='mt-24'>
       <ul className='flex flex-col gap-2'>
         <li className='list-none hover:bg-neutral-800 transition-all py-2 px-2 rounded-md font-light text-[15px] text-[#fff]'>

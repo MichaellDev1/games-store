@@ -14,8 +14,8 @@ export const getGame = {
     return fetch(`${api_url}/platforms?key=${api_key}`)
       .then(res => res.json())
   },
-  searchGame: ({ keyword }: { keyword: string }) => {
-    return fetch(`${api_url}/games?search=${keyword}&key=${api_key}`)
+  searchGame: ({ keyword, page, size = 20 }: { keyword: string, page: number, size: number }) => {
+    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}&ordering=rating&key=${api_key}`)
       .then(res => res.json())
   },
   getAdditionsGame: ({ keyword }: { keyword: string }) => {
