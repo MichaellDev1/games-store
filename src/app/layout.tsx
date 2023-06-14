@@ -16,10 +16,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className='flex'>
+        <main className='flex w-full'>
           <GradientRounded />
           <Menu menuHidden={true} />
-          <div className='lg:pl-[calc(100% / 208px)] flex flex-col lg:ml-52 px-10 overflow-hidden relative z-20'>
+          <div className='lg:pl-[calc(100% / 208px)] w-full flex flex-col lg:ml-52 px-10 overflow-hidden relative z-20'>
             <Header />
             {children}
             <Footer />

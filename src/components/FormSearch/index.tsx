@@ -8,7 +8,7 @@ import './index.css'
 
 export default function FormSearch() {
   const [keyword, setKeyword] = useState<string>('')
-  const keywordDebounce = useDebounce({ delay: 2000, value: keyword })
+  const keywordDebounce = useDebounce({ delay: 600, value: keyword })
   const router = useRouter()
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +35,9 @@ export default function FormSearch() {
         className='text-[var(--texticon-color)] input-search-header w-full placeholder:text-[var(--texticon-color)] px-12 py-[9px] bg-[var(--bg-icons)] rounded-xl text-[15px] font-light' />
 
       {keyword.trim() !== '' &&
-        <MenuSearchChange keyword={keyword} keywordDebounce={keywordDebounce} />}
+        <MenuSearchChange 
+        keyword={keyword} 
+        keywordDebounce={keywordDebounce} />}
     </form>
   )
 }

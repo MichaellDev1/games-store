@@ -45,8 +45,12 @@ export default function Menu({ menuHidden }: Props) {
 
   return <div className={`w-52 h-full fixed top-0 bg-transparent z-40 p-7 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'} lg:left-0 left-full`}>
     <div>
-      <div className='pb-16'>
-        <h4 className='text-2xl'>Mishelds</h4>
+      <div className='pb-16 flex items-center gap-2'>
+        <div className='relative bg-white w-[20px] h-[20px] rounded-full overflow-hidden'>
+          <span className='bg-[var(--color-gradient)] w-[15px] h-[15px] absolute rounded-full'></span>
+        </div>
+        <h4 className='text-[23px] font-medium'>
+          Mishelds</h4>
       </div>
       <nav>
         <ul className='flex flex-col gap-2'>
