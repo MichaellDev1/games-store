@@ -80,14 +80,15 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
               </div>
             </div>
 
-            <div className='flex flex-col justify-center p-6 rounded-[15px]' style={{ gridRow: '1/3', gridColumn: '5/7', background: 'linear-gradient(253deg, #eb8250, rgb(51 51 51 / 0%) 70.71%), linear-gradient(127deg, rgb(16 16 16), rgb(70 243 70 / 0%) 70.71%), linear-gradient(336deg, rgb(255 0 0), rgb(13 14 7 / 86%) 70.71%)' }}>
-              <h2 className={`font-semibold text-[18px] ${animate ? 'animate' : ''}`}>{games.name}</h2>
-              <p className={`text-xs font-light ${animate ? 'animate' : ''}`}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, fugiat!</p>
-              <div className='flex flex-col w-full mt-20'>
-                <span className='text-[15px] mb-1 font-light'>$16.66</span>
+            <div className='flex flex-col justify-between p-6 rounded-[15px]' style={{ gridRow: '1/3', gridColumn: '5/7', background: 'linear-gradient(253deg, #eb8250, rgb(51 51 51 / 0%) 70.71%), linear-gradient(127deg, rgb(16 16 16), rgb(70 243 70 / 0%) 70.71%), linear-gradient(336deg, rgb(255 0 0), rgb(13 14 7 / 86%) 70.71%)' }}>
+              <div>
+                <h2 className={`font-semibold text-[18px] ${animate ? 'animate' : ''}`}>{games.name}</h2>
+                <p className={`text-xs font-light ${animate ? 'animate' : ''}`}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, fugiat!</p>
+              </div>
+              <div className='flex flex-col w-full self-end'>
                 <div className='flex justify-between items-center'>
-                  <button className='bg-[#00000050] py-[9px] rounded-xl font-normal px-8 text-[15px]'>
-                    Availible now
+                  <button className='bg-[#00000050] hover:bg-[#07070783] transition-all  py-[9px] rounded-xl font-normal px-8 text-[15px]'>
+                    View more detail
                   </button>
                 </div>
               </div>

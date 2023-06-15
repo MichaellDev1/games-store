@@ -43,21 +43,21 @@ export default function Menu({ menuHidden }: Props) {
     setPathName(href)
   }
 
-  return <div className={`w-52 h-full fixed top-0 bg-transparent z-40 p-7 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'} lg:left-0 left-full`}>
+  return <div className={`w-52 h-full fixed top-0 bg-transparent z-40 p-7 lg:left-0 ${menuHidden ? 'left-0' : 'left-full'} lg:left-0 left-full flex flex-col justify-between`}>
     <div>
-      <div className='pb-16 flex items-center gap-2'>
-        <div className='relative bg-white w-[20px] h-[20px] rounded-full overflow-hidden'>
-          <span className='bg-[var(--color-gradient)] w-[15px] h-[15px] absolute rounded-full'></span>
+      <div className='flex items-center gap-2'>
+        <div className='relative bg-white w-[20px] h-[20px] rounded-full '>
+          <span className='bg-[var(--background-color)] w-[15px] h-[15px] absolute rounded-full'></span>
         </div>
         <h4 className='text-[23px] font-medium'>
           Mishelds</h4>
       </div>
-      <nav>
+      <nav className='mt-16'>
         <ul className='flex flex-col gap-2'>
           {navLinks.map(({ icon, href, label }) => (
-            <li key={label} onClick={() => handleClick(href)} className={`list-none font-light ${pathname == href ? 'text-[var(--color-gradient)]' : 'text-[#fff]'} w-full text-[15px] py-2 px-2 rounded-md hover:bg-neutral-800 transition-all`}>
-              <Link href={href} className='flex items-center gap-2'>
-                <span className='text-[20px] relative text-[#ffffff8f]'>
+            <li key={label} onClick={() => handleClick(href)} className={`list-none font-light ${pathname == href ? 'text-[var(--color-gradient)]' : 'text-[#fff]'} w-full text-[15px]  rounded-md hover:bg-neutral-800 transition-all`}>
+              <Link href={href} className='flex items-center gap-2 py-2 px-2'>
+                <span className={`text-[20px] relative ${pathname == href ? 'text-[var(--color-gradient)]' : 'text-[#ffffff8f]'}`}>
                   {href == pathname && <span className='w-[3px] h-[20px] bg-[var(--color-gradient)] rounded-full absolute top-0 -left-4' style={{ boxShadow: '1px 0px 10px #ff6b27' }}></span>}
                   <span className='z-20 relative backdrop-blur-md'>{icon}</span>
                 </span>
@@ -68,18 +68,18 @@ export default function Menu({ menuHidden }: Props) {
         </ul>
       </nav>
     </div>
-    <div className='mt-24'>
+    <div className=''>
       <ul className='flex flex-col gap-2'>
-        <li className='list-none hover:bg-neutral-800 transition-all py-2 px-2 rounded-md font-light text-[15px] text-[#fff]'>
-          <Link href='/settings' className='flex items-center gap-2'>
+        <li className='list-none hover:bg-neutral-800 transition-all  rounded-md font-light text-[15px] text-[#fff]'>
+          <Link href='/settings' className='flex items-center py-2 px-2 gap-2'>
             <span className='text-[20px] text-[#ffffff8f]'>
               <LuSettings />
             </span>
             Settings
           </Link>
         </li>
-        <li className='list-none hover:bg-neutral-800 transition-all py-2 px-2 rounded-md font-light text-[15px] text-[#fff]'>
-          <Link href={'/help'} className='flex items-center gap-2'>
+        <li className='list-none hover:bg-neutral-800 transition-all rounded-md font-light text-[15px] text-[#fff]'>
+          <Link href={'/help'} className='flex items-center py-2 px-2  gap-2'>
             <span className='text-[20px] text-[#ffffff8f]'>
               <IoMdHelpCircle />
             </span>
@@ -88,7 +88,7 @@ export default function Menu({ menuHidden }: Props) {
         </li>
       </ul>
     </div>
-    <div className='mt-20'>
+    <div>
       <Link href={'/help'} className='flex items-center gap-2'>
         <span className='text-[20px] text-[#ffffff8f]'>
           <AiOutlineLogin />

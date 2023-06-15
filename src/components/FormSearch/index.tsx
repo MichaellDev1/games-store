@@ -32,7 +32,7 @@ export default function FormSearch() {
         name="keyword"
         autoComplete='off'
         placeholder='Search orders'
-        className='text-[var(--texticon-color)] input-search-header w-full placeholder:text-[var(--texticon-color)] px-12 py-[9px] bg-[var(--bg-icons)] rounded-xl text-[15px] font-light' />
+        className='text-[var(--texticon-color)] input-search-header transition-all w-full placeholder:text-[var(--texticon-color)] px-12 py-[9px] bg-[var(--bg-icons)] rounded-xl text-[15px] focus:bg-neutral-600 hover:bg-neutral-700 font-light' />
 
       {keyword.trim() !== '' &&
         <MenuSearchChange 

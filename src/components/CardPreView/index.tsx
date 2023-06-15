@@ -8,8 +8,8 @@ interface Props {
   background_image: string
 }
 
-function CardPreview({ name, id, background_image }) {
-  return <Link href={`/search/${id}`} className='w-full flex gap-3 items-center'>
+function CardPreview({ name, id, background_image }: Props) {
+  return <Link href={`/detail/${id}`} className='w-full flex gap-3 items-center'>
     <div className='w-[33px] h-[43px] rounded-sm bg-slate-200 relative overflow-hidden'>
       <Image
         src={background_image ? background_image : 'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'}
