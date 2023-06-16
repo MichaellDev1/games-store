@@ -6,6 +6,7 @@ import SectionOffers from '@/components/SectionOffers'
 import SectionRecentAdd from "@/components/SectionRecentAdd"
 import Image from "next/image"
 import { TfiGift } from 'react-icons/tfi'
+import Link from "next/link"
 
 export default function Home() {
   const [games, setGames] = useState<any>([])
@@ -33,31 +34,31 @@ export default function Home() {
           <div className="flex items-center gap-5 justify-center">
 
             {games.length > 0 && <>
-              <div className="flex flex-col">
+              <Link href={`/detail/${games[14].id}`} className="flex flex-col">
                 <div className="flex-1 h-[200px] rounded-[5px] relative overflow-hidden">
                   <Image src={games[14].background_image} alt={'game free'} width={600} height={600} className="w-full h-full object-cover" />
                   <div className="absolute bg-[#0078F2] uppercase font-medium py-[2px] text-sm text-center bottom-0 w-full left-0">Free now</div>
                 </div>
                 <h4 className="mt-5 font-normal text-base">{games[14].name}</h4>
-              </div>
+              </Link>
 
 
-              <div className="flex flex-col">
+              <Link href={`/detail/${games[11].id}`} className="flex flex-col">
                 <div className="flex-1 h-[200px] rounded-[5px] overflow-hidden relative">
                   <Image src={games[11].background_image} alt={'game free'} width={600} height={600} className="w-full h-full object-cover" />
                   <div className="absolute bg-[#0078F2] uppercase font-medium py-[2px] text-sm text-center bottom-0 w-full left-0">Free now</div>
                 </div>
                 <h4 className="mt-5 font-normal text-base">{games[11].name}</h4>
-              </div>
+              </Link>
 
 
-              <div className="flex flex-col">
+              <Link href={`/detail/${games[15].id}`} className="flex flex-col">
                 <div className="flex-1 h-[200px] rounded-[5px] overflow-hidden relative">
                   <Image src={games[15].background_image} alt={'game free'} width={600} height={600} className="w-full h-full object-cover" />
                   <div className="absolute bg-[#000000] uppercase font-medium py-[2px] text-sm text-center bottom-0 w-full left-0">Soon</div>
                 </div>
                 <h4 className="mt-5 font-normal text-base">{games[15].name}</h4>
-              </div>
+              </Link>
             </>
             }
           </div>

@@ -37,7 +37,7 @@ export default function Header() {
         </button>
       </div>
 
-      <button className={`flex gap-2 ml-3 ${showMenu ? 'bg-neutral-800' : ''} cursor-pointer items-center hover:bg-neutral-800  border border-transparent hover:border-neutral-600 transition-all py-1 px-3 rounded-xl`} onClick={handleShowMenu}>
+      <button className={`flex gap-2 ml-3 ${showMenu ? 'bg-neutral-800 border-neutral-600 border' : ''} cursor-pointer items-center hover:bg-neutral-800 border border-transparent hover:border-neutral-600 transition-all py-1 px-3 rounded-xl`} onClick={handleShowMenu}>
         <div className='text-[var(--texticon-color)] bg-[var(--bg-icons)] w-[39px] h-[39px] bg-white text-[17px] border border-[var(--color-gradient)] rounded-full overflow-hidden relative'>
           <Image src={'https://www.getillustrations.com/photos/pack/3d-avatar-male_lg.png'} alt='image user' width={400} height={400} className='w-full h-full object-cover' />
         </div>

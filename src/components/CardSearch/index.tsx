@@ -5,7 +5,7 @@ function CardSearch({ id, background_image, name }: any) {
   return (
     <li className='relative flex flex-col w-[200px]'>
       <div className='h-[250px] rounded-[3px] overflow-hidden relative '>
-        <Image alt='game image background' src={background_image ? background_image : ''} className='w-full h-full object-cover' width={400} height={400} />
+        <Image alt='game image background' src={background_image ? background_image : 'https://media.rawg.io/media/screenshots/c49/c49be155f1616816863e3305f5c39f0a.jpg'} className='w-full h-full object-cover' width={400} height={400} />
       </div>
       <div className='min-h-[30px] mt-3'>
         <h5 className='text-sm'>{name}</h5>

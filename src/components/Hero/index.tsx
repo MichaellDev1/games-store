@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { IoMdAdd } from 'react-icons/io'
 import './index.css'
+import Link from 'next/link'
 
 interface Props {
   games: any
@@ -87,9 +88,9 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
               </div>
               <div className='flex flex-col w-full self-end'>
                 <div className='flex justify-between items-center'>
-                  <button className='bg-[#00000050] hover:bg-[#07070783] transition-all  py-[9px] rounded-xl font-normal px-8 text-[15px]'>
+                  <Link href={`/detail/${games.id}`} className='bg-[#00000050] hover:bg-[#07070783] transition-all  py-[9px] rounded-xl font-normal px-8 text-[15px]'>
                     View more detail
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
