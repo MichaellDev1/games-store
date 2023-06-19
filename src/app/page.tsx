@@ -10,14 +10,9 @@ export default function Home() {
   const [games, setGames] = useState<any>([])
   const [num, setNum] = useState<number>(0)
 
-  useEffect(() => {
-    setGames(jsonGames)
-  }, [])
-
-
-  const handleChangeHero = (inx: number): void => {
-    setNum(inx)
-  }
+  useEffect(() => { setGames(jsonGames) }, [])
+  
+  const handleChangeHero = (inx: number): void => setNum(inx)
 
   return (
     <section>

@@ -1,8 +1,9 @@
 'use client'
-import { DetailedHTMLProps, HTMLAttributes, useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import ListGameSearch from '@/components/ListGamesSearch/indext'
 import { getGame } from "@/services/getGame"
 import { MdKeyboardArrowDown } from 'react-icons/md'
+import useNearScreen from "@/hooks/useNearScreen"
 
 const menuList = [
   {
@@ -16,46 +17,39 @@ export default function Search({ params }: any) {
   const { id } = params
   const [games, setGame] = useState<Array<any>>([])
   const [page, setPage] = useState<number>(1)
-  const [totalPage, setTotalPage] = useState<null | number>()
-  const refNearcScrean = useRef<any>()
+  const [totalPage, setTotalPage] = useState<null | number>(0)
   const [showMenu, setShowMenu] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const refScrolling: any = useRef()
+  const [isFirst, setFirst] = useState(false)
+  const { isNear } = useNearScreen({ isContinuous: true, rootMargin: '300px', externalRef: loading ? null : refScrolling })
 
-  useEffect(() => {
-    getGame.searchGame({ keyword: decodeURI(id), page }).then((res: any) => {
-      setGame(lastPage => [...lastPage, ...res.results])
-      setTotalPage(Math.floor(res.count / 30))
-    })
-  }, [id, page])
-
-
-  useEffect(() => {
-    if (refNearcScrean.current) {
-      const visibility = (entries: any, observer: any) => {
-        const ele = entries[0]
-        if (ele.isIntersecting) {
-          handleNextPage()
-          console.log(observer)
-        }
-      }
-      const observer = new IntersectionObserver(visibility, {
-        rootMargin: '300px'
-      })
-
-      observer.observe(refNearcScrean.current)
-      return () => observer && observer.disconnect()
-
-    }
-  }, [refNearcScrean])
-
-  const handleNextPage = () => {
+  const handleNextPage = (): void => {
     if (totalPage !== null && games.length <= (totalPage * 30)) {
       setPage(lastPage => lastPage + 1)
     }
   }
 
-  const handleShowMenu = () => {
+  const handleShowMenu = () =>
     setShowMenu(!showMenu)
-  }
+
+
+  useEffect(() => {
+    if (!isFirst) setLoading(true)
+
+    getGame.searchGame({ keyword: decodeURI(id), page, size: 30 }).then((res: any) => {
+      setGame(lastPage => [...lastPage, ...res.results])
+      setTotalPage(Math.floor(res.count / 30))
+      !isFirst && setLoading(false)
+      !isFirst && setFirst(true)
+    })
+
+  }, [id, page])
+
+
+  useEffect(() => {
+    if (isNear) handleNextPage()
+  }, [isNear])
 
   return (
     <div>
@@ -66,7 +60,7 @@ export default function Search({ params }: any) {
             <span className={`${showMenu ? 'rotate-180' : 'rotate-0'} transition-all`}>
               <MdKeyboardArrowDown />
             </span>
-            {showMenu && <div className="absolute w-[230px]  flex flex-col justify-start items-start overflow-hidden  rounded-md shadow-md left-0 bg-neutral-800 top-7 z-10">
+            {showMenu && <div className="absolute w-[230px]  flex flex-col justify-start items-start overflow-hidden  rounded-md shadow-md left-0 bg-neutral-800 top-7 z-20">
               {
                 menuList.map(({ label }) => (
                   <button key={label} className="py-3 w-full text-start hover:bg-neutral-600 transition-all px-5">{label}</button>
@@ -80,7 +74,7 @@ export default function Search({ params }: any) {
           games={games} />
         {totalPage
           && games.length <= (totalPage * 30)
-          && <div className="w-full h-[10px]" ref={refNearcScrean}></div>}
+          && <div className="w-full h-[10px]" ref={refScrolling}></div>}
       </div>
     </div>
   )

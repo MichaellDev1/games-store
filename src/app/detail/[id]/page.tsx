@@ -186,7 +186,10 @@ export default function Detail({ params }: any) {
         <div className='mt-10 '>
           {dataSelected === gameLinks[0].href && (
             <p className='font-light text-sm'>
-              {dataGame.description_raw.split('').slice(0, isReadMore ? dataGame.description_raw.length : 300).map((res: any) => res)}...<button className='text-[var(--color-gradient)] ml-3 text-sm' onClick={handleReadMore}>{isReadMore ? 'Read less' : 'Read more'}</button>
+              {dataGame.description_raw.split('').slice(0, isReadMore ? dataGame.description_raw.length : 300).map((res: any) => res)}...{dataGame.description_raw.length > 300 
+                && <button className='text-[var(--color-gradient)] ml-3 text-sm' onClick={handleReadMore}>
+                  {isReadMore ? 'Read less' : 'Read more'}
+                </button>}
             </p>
           )}
 

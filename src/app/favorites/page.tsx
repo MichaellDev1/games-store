@@ -10,7 +10,6 @@ export default function Favorites() {
 
   useEffect(() => {
     const local = JSON.parse(localStorage.getItem('favorites'))
-
     if (local) {
       const dataFavorites = local.map((id: any) => {
         setLoading(true)
@@ -27,6 +26,12 @@ export default function Favorites() {
         })
     }
   }, [])
+
+  const handleFavoriteDesible = (id: string) => {
+    const deleteFavorite = favorites.filter(game => game.id !== id)
+    setFavorites(deleteFavorite)
+  }
+
   return (
     <div className='min-h-[100vh]'>
       <h2 className='mb-5 font-medium text-xl'>Your favorite:</h2>
@@ -41,7 +46,8 @@ export default function Favorites() {
                   <CardSearch
                     background_image={data.background_image}
                     id={data.id}
-                    name={data.name} />
+                    name={data.name} 
+                    handleFavoriteDesible={handleFavoriteDesible}/>
                 </Suspense>)
               }
             </div>

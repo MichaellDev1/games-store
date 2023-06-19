@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import jsonX from '@/games.json'
 import Carrousel from '../Carrousel'
-import Image from 'next/image'
-import Link from 'next/link'
 import ChildrenCarrousel from '../ChildrenCarrousel'
+import useNearScreen from '@/hooks/useNearScreen'
 
 export default function SectionOffers() {
   const [games, setGames] = useState<Array<any>>([])
+  const { isNear, refEle } = useNearScreen({ rootMargin: '300px' })
 
   useEffect(() => {
-    setGames(jsonX)
-  }, [])
+    if (isNear) {
+      setGames(jsonX)
+    }
+  }, [isNear])
 
   return (
-    <section className='mt-5'>
-      <Carrousel title='Special offers'>
+    <section className='mt-5 min-h-[20px]' ref={refEle}>
+      {isNear && <Carrousel title='Special offers' >
         {games.length > 0 && <>
           <ChildrenCarrousel background_image={games[0]?.background_image} id={games[0].id} width='330px' name={games[0].name} />
           {
@@ -28,7 +30,7 @@ export default function SectionOffers() {
             ))
           }
         </>}
-      </Carrousel>
+      </Carrousel>}
     </section>
   )
 }

@@ -4,7 +4,6 @@ import Header from '@/components/Header'
 import Menu from '@/components/Menu'
 import Footer from '@/components/Footer'
 import GradientRounded from '@/components/GradientRounded'
-
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {

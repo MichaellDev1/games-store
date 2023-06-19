@@ -4,13 +4,18 @@ import Link from 'next/link'
 import React from 'react'
 import { MdOutlineFavorite, MdFavoriteBorder } from 'react-icons/md'
 
-function CardSearch({ id, background_image, name }: any) {
+function CardSearch({ id, background_image, name, handleFavoriteDesible = null }: any) {
   const { handleFavorite, isFavorite, favorites } = useFavorite()
 
   return (
     <div className='relative'>
-      <button className='absolute top-2 right-2 bg-[#00000080] text-base rounded-full p-1 z-10' onClick={() => handleFavorite(id)}>
-        {isFavorite || favorites.includes(id) ? <MdOutlineFavorite /> : <MdFavoriteBorder />}
+      <button className='absolute top-2 right-2 bg-[#00000080] text-base rounded-full p-1 z-10' onClick={() => {
+        handleFavorite(id)
+        if (handleFavoriteDesible) handleFavoriteDesible(id)
+      }}>
+        {isFavorite || favorites.includes(id)
+          ? <MdOutlineFavorite />
+          : <MdFavoriteBorder />}
       </button>
       <Link href={`/detail/${id}`} className='relative flex flex-col w-[180px]'>
         <div className='h-[250px] rounded-[3px] overflow-hidden relative '>
