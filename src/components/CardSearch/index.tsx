@@ -1,16 +1,26 @@
+import useFavorite from '@/hooks/useFavorite'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
+import { MdOutlineFavorite, MdFavoriteBorder } from 'react-icons/md'
 
 function CardSearch({ id, background_image, name }: any) {
+  const { handleFavorite, isFavorite, favorites } = useFavorite()
+
   return (
-    <li className='relative flex flex-col w-[200px]'>
-      <div className='h-[250px] rounded-[3px] overflow-hidden relative '>
-        <Image alt='game image background' src={background_image ? background_image : 'https://media.rawg.io/media/screenshots/c49/c49be155f1616816863e3305f5c39f0a.jpg'} className='w-full h-full object-cover' width={400} height={400} />
-      </div>
-      <div className='min-h-[30px] mt-3'>
-        <h5 className='text-sm'>{name}</h5>
-      </div>
-    </li>
+    <div className='relative'>
+      <button className='absolute top-2 right-2 bg-[#00000080] text-base rounded-full p-1 z-10' onClick={() => handleFavorite(id)}>
+        {isFavorite || favorites.includes(id) ? <MdOutlineFavorite /> : <MdFavoriteBorder />}
+      </button>
+      <Link href={`/detail/${id}`} className='relative flex flex-col w-[180px]'>
+        <div className='h-[250px] rounded-[3px] overflow-hidden relative '>
+          <Image alt='game image background' src={background_image ? background_image : 'https://media.rawg.io/media/screenshots/c49/c49be155f1616816863e3305f5c39f0a.jpg'} className='w-full h-full object-cover' width={400} height={400} />
+        </div>
+        <div className='min-h-[30px] mt-3'>
+          <h5 className='text-sm'>{name}</h5>
+        </div>
+      </Link>
+    </div>
   )
 }
 

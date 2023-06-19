@@ -15,7 +15,7 @@ export const getGame = {
       .then(res => res.json())
   },
   searchGame: ({ keyword, page, size = 30 }: { keyword: string, page: number, size: number }): Promise<Response> => {
-    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}&ordering=rating&key=${api_key}`)
+    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}&ordering=rating&platforms_count=1&key=${api_key}`)
       .then(res => res.json())
   },
   getAdditionsGame: ({ keyword }: { keyword: string }): Promise<Response> => {

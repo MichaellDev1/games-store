@@ -9,6 +9,7 @@ import Link from 'next/link'
 import Carrousel from '@/components/Carrousel'
 import { getGame } from '@/services/getGame'
 import Spinner from '@/components/Spinner'
+import useFavorite from '@/hooks/useFavorite'
 
 const gameLinks = [
   {
@@ -28,14 +29,15 @@ const gameLinks = [
 ]
 
 export default function Detail({ params }: any) {
+  const { handleFavorite, isFavorite, setIsFavorite } = useFavorite()
   const [movieSelected, setMovieSelected] = useState(0)
   const [dataGame, setDataGame] = useState<any>()
   const [dataSelected, setDataSelected] = useState(gameLinks[0].href)
   const [isReadMore, setReadMore] = useState(false)
   const [isStartVideo, setStartVideo] = useState(false)
   const [moviesGame, setMoviesGame] = useState<Array<any>>([])
-  const [isFavorite, setIsFavorite] = useState(false)
   const [screeanShotGame, setScreeanShot] = useState<Array<any>>([])
+
   const { id } = params
 
   useEffect(() => {
@@ -76,24 +78,6 @@ export default function Detail({ params }: any) {
   const handleReadMore = () =>
     setReadMore(!isReadMore)
 
-  const handleFavorite = () => {
-    const localStorageFavorites: Array<any> = JSON.parse(localStorage.getItem('favorites'))
-
-    if (localStorageFavorites) {
-      const checked = localStorageFavorites.findIndex(id => id == dataGame.id)
-      if (checked !== -1) {
-        const deleteId = localStorageFavorites.filter(id => id !== dataGame.id)
-        localStorage.setItem('favorites', JSON.stringify(deleteId))
-        setIsFavorite(false)
-      } else {
-        localStorage.setItem('favorites', JSON.stringify([...localStorageFavorites, dataGame.id]))
-        setIsFavorite(true)
-      }
-    } else {
-      localStorage.setItem('favorites', JSON.stringify([dataGame.id]))
-      setIsFavorite(true)
-    }
-  }
 
   return dataGame ? <section>
     {dataGame && <React.Fragment>
@@ -113,8 +97,8 @@ export default function Detail({ params }: any) {
               : <Image
                 src={moviesGame[movieSelected]
                   ? moviesGame[movieSelected].preview
-                  : screeanShotGame.length > 0
-                    ? screeanShotGame[0].image
+                  : dataGame
+                    ? dataGame.background_image
                     : ''}
                 priority={true}
                 alt={moviesGame[movieSelected]
@@ -179,7 +163,7 @@ export default function Detail({ params }: any) {
           </div>
 
           <div className='w-full text-center'>
-            <button className='py-3 px-5 w-full flex items-center justify-center rounded-2xl bg-[--color-gradient] hover:bg-[#ff8d58] transition-all text-sm gap-2' onClick={handleFavorite}>
+            <button className='py-3 px-5 w-full flex items-center justify-center rounded-2xl bg-[--color-gradient] hover:bg-[#ff8d58] transition-all text-sm gap-2' onClick={() => handleFavorite(dataGame.id)}>
               <span className='text-lg'>
                 {isFavorite ? <MdOutlineFavorite /> : <MdFavoriteBorder />}
               </span>

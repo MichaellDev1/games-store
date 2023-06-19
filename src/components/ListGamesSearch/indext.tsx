@@ -3,7 +3,7 @@ const CardSearch = React.lazy(() => import('@/components/CardSearch/index'))
 
 export default function ListGameSearch({ games }: { games: any }) {
   return (
-    <ul className='w-full flex flex-wrap gap-4 justify-center items-center'>
+    <ul className='w-full flex flex-wrap gap-4'>
       {
         games.length > 0 && games.map((game: any) => (
           <Suspense key={game.id} fallback={<div className='w-[180px] bg-neutral-600 relative rounded-md h-[300px]'></div>}>

@@ -2,7 +2,6 @@
     animation: startMenu .2s linear;
 }
 
-
 @keyframes startMenu {
     0% {
         transform: translateY(-15px);
