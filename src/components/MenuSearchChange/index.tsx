@@ -15,8 +15,8 @@ export default function MenuSearchChange({ keywordDebounce, keyword = '' }: Prop
 
   useEffect(() => {
     if (keyword !== '') {
-      getGame.searchGame({ keyword: keywordDebounce, page: 1, size: 4 })
-        .then(data => {
+      getGame.searchGame({ keyword: keywordDebounce, page: 1, size: 4, isRecent: false})
+        .then((data: any) => {
           setGames(data.results)
           setLoading(true)
         })

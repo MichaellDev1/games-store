@@ -1,9 +1,9 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Carrousel from '../Carrousel'
-import recentAdd from '@/mejoresGames.json'
 import ChildrenCarrousel from '../ChildrenCarrousel'
 import useNearScreen from '@/hooks/useNearScreen'
+import { getGame } from '@/services/getGame'
 
 export default function SectionRecentAdd() {
   const [games, setGames] = useState<Array<any>>([])
@@ -11,7 +11,10 @@ export default function SectionRecentAdd() {
 
   useEffect(() => {
     if (isNear) {
-      setGames(recentAdd)
+      getGame.getAllGames({ page: 40, size: 30 })
+        .then((data: any) => {
+          setGames(data.results)
+        })
     }
   }, [isNear])
 

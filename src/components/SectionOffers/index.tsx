@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import jsonX from '@/games.json'
 import Carrousel from '../Carrousel'
 import ChildrenCarrousel from '../ChildrenCarrousel'
 import useNearScreen from '@/hooks/useNearScreen'
+import { getGame } from '@/services/getGame'
 
 export default function SectionOffers() {
   const [games, setGames] = useState<Array<any>>([])
@@ -10,7 +10,10 @@ export default function SectionOffers() {
 
   useEffect(() => {
     if (isNear) {
-      setGames(jsonX)
+      getGame.getAllGames({ page: 6, size: 30 })
+        .then((data: any) => {
+          setGames(data.results)
+        })
     }
   }, [isNear])
 

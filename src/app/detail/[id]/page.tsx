@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import detailGAme from '@/detailGame.json'
 import Image from 'next/image'
 import ReactPlayer from 'react-player'
 import { BsFillPlayFill } from 'react-icons/bs'
@@ -196,7 +195,7 @@ export default function Detail({ params }: any) {
           {dataSelected == gameLinks[2].href && <ul className='flex items-center gap-12 flex-wrap'>
 
             {
-              detailGAme.platforms.map(plataform => (
+               dataGame.platforms.map(plataform => (
                 <li key={plataform.platform.id} className='flex flex-col'>
                   <span>{plataform.platform.name}</span>
                 </li>
@@ -208,7 +207,7 @@ export default function Detail({ params }: any) {
 
           {dataSelected == gameLinks[1].href && <ul className='flex items-center gap-12 flex-wrap'>
             {
-              detailGAme.stores.map((store) => (
+              dataGame.stores.map((store: any) => (
                 <li key={store.id}>
                   <Link href={store.store.domain}>{store.store.name}</Link>
                 </li>
@@ -218,7 +217,7 @@ export default function Detail({ params }: any) {
 
           {dataSelected == gameLinks[3].href && <ul className='flex items-center gap-12 flex-wrap'>
             {
-              detailGAme.tags.map((tag) => (
+              dataGame.tags.map((tag) => (
                 <li key={tag.id}>
                   <span>{tag.name}</span>
                 </li>
@@ -226,7 +225,6 @@ export default function Detail({ params }: any) {
             }
           </ul>}
         </div>
-
 
       </div>
       <section className='w-full mt-20'>

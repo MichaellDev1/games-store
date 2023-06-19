@@ -14,21 +14,21 @@ export default function useFavorite() {
 
   const handleFavorite = (id: string) => {
     const localStorageFavorites: Array<any> = JSON.parse(localStorage.getItem('favorites'))
+
     if (localStorageFavorites) {
       const checked = localStorageFavorites.findIndex(idd => idd == id)
 
       if (checked !== -1) {
-
         const deleteId = localStorageFavorites.filter(id => id !== id)
-        localStorage.setItem('favorites', JSON.stringify(deleteId))
         setIsFavorite(false)
+        localStorage.setItem('favorites', JSON.stringify(deleteId))
+        setFavorites(deleteId)
   
       } else {
 
         localStorage.setItem('favorites', JSON.stringify([...localStorageFavorites, id]))
         setIsFavorite(true)
         setFavorites(lastValue => [...lastValue, id])
-
       }
 
     } else {

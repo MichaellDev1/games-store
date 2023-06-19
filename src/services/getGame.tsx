@@ -2,8 +2,8 @@ import { api_url } from "./config"
 const api_key = process.env.NEXT_PUBLIC_API_KEY
 
 export const getGame = {
-  getAllGames: (): Promise<Response> => {
-    return fetch(`${api_url}/games?key=${api_key}`)
+  getAllGames: ({ page = 1, size = 20 }: any): Promise<Response> => {
+    return fetch(`${api_url}/games?page=${page}&page_size=${size}&key=${api_key}`)
       .then(res => res.json())
   },
   getDetailGame: (id: string): Promise<Response> => {
@@ -14,8 +14,8 @@ export const getGame = {
     return fetch(`${api_url}/platforms?key=${api_key}`)
       .then(res => res.json())
   },
-  searchGame: ({ keyword, page, size = 30 }: { keyword: string, page: number, size: number }): Promise<Response> => {
-    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}&ordering=rating&key=${api_key}`)
+  searchGame: ({ keyword, page, size = 30, isRecent = false, date = null, platform = null, genrer = null }: { keyword: string, page: number, size: number, isRecent: boolean, genrer: null | string | undefined, platform: string | null | undefined, date: null | Date | undefined }): Promise<Response> => {
+    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}${isRecent ? '&ordering=added' : ''}&key=${api_key}`)
       .then(res => res.json())
   },
   getAdditionsGame: ({ keyword }: { keyword: string }): Promise<Response> => {
@@ -32,6 +32,10 @@ export const getGame = {
   },
   getScreeanShot: (id: string) => {
     return fetch(`${api_url}/games/${id}/screenshots?key=${api_key}`)
+      .then(res => res.json())
+  },
+  getByGenres: ({ id, page_size, page }: any) => {
+    return fetch(`${api_url}/games?genres=${id}&page_size=${page_size}&page=${page}&key=${api_key}`)
       .then(res => res.json())
   }
 }

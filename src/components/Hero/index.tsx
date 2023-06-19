@@ -34,7 +34,7 @@ export default function Hero({ games, handleChangeHero, num }: Props) {
   }
 
   return (
-    <div>
+    <div className='min-h-[400px]'>
       {
         games && <>
           <div className='h-[400px] grid grid-cols-6 grid-rows-3 w-full gap-2'>
