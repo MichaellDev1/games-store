@@ -2,8 +2,14 @@ import { api_url } from "./config"
 const api_key = process.env.NEXT_PUBLIC_API_KEY
 
 export const getGame = {
-  getAllGames: ({ page = 1, size = 20 }: any): Promise<Response> => {
-    return fetch(`${api_url}/games?page=${page}&page_size=${size}&key=${api_key}`)
+  getAllGames: ({ page, size = 30, isRecent = false, date = null, platform = [], genrer = [] }: { page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined, date: null | Date | undefined }): Promise<Response> => {
+    return fetch(`${api_url}/games?page_size=${size}&page=${page}${isRecent
+      ? '&ordering=added'
+      : ''}${platform.length > 0
+        ? `&platforms=${platform.length > 1 ? platform.map(platform => platform) : platform[0] ? platform[0] : ''}`
+        : ''}${genrer.length > 0
+          ? `&genres=${genrer.length > 1 ? genrer.map(genre => genre) : genrer[0] ? genrer[0] : ''}`
+          : ''}&key=${api_key}`)
       .then(res => res.json())
   },
   getDetailGame: (id: string): Promise<Response> => {

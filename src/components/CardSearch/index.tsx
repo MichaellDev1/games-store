@@ -53,7 +53,7 @@ function CardSearch({ id, background_image, name, handleFavoriteDesible = null }
       </button>
       <Link href={`/detail/${id}`} className='relative flex flex-col w-[180px]'>
         <div className='h-[250px] rounded-[3px] overflow-hidden relative image-card'>
-          <Image alt='game image background' src={background_image ? background_image : 'https://media.rawg.io/media/screenshots/c49/c49be155f1616816863e3305f5c39f0a.jpg'} className='w-full h-full object-cover' width={150} height={150} />
+          <Image alt='game image background' src={background_image ? background_image : 'https://media.rawg.io/media/screenshots/c49/c49be155f1616816863e3305f5c39f0a.jpg'} className='w-full h-full object-cover' width={300} height={300} />
           <div className='info-game w-full h-full bg-[#ffffff1a] absolute top-0 left-0'>
 
           </div>

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { IoIosArrowForward } from 'react-icons/io'
 
-export default function Carrousel({ children, title }: { children: React.ReactNode, title: string }) {
+export default function Carrousel({ children, title, height = '270' }: { children: React.ReactNode, title: string, height?: string }) {
   const refCarrousel: React.LegacyRef<HTMLDivElement> | null = useRef(null)
 
   const handleScrollBtn = (scrollLeft: boolean = false) => {
@@ -34,7 +34,7 @@ export default function Carrousel({ children, title }: { children: React.ReactNo
           </div>
         </div>
       </div>
-      <div className='w-full overflow-hidden h-[270px] mb-[5px] box-border relative' >
+      <div className={`w-full overflow-hidden h-[${height}px] mb-[5px] box-border relative `}>
         <div className='relative carrousel overflow-y-hidden h-full overflow-x-hidden scroll-smooth' ref={refCarrousel}>
           <section className='flex gap-[10px] h-full items-center'>
             {children}
