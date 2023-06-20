@@ -23,8 +23,9 @@ export default function Detail({ params }: any) {
     const local = JSON.stringify(localStorage.getItem('favorites'))
     getGame.getDetailGame(id)
       .then((detail: any) => {
+        if(typeof detail.detail === 'string') return setDataGame(null)
+        
         setDataGame(detail)
-
         if (local) {
           local.includes(detail.id)
             ? setIsFavorite(true)
@@ -47,9 +48,6 @@ export default function Detail({ params }: any) {
 
   const handleSelectedMovie = (inx: number) =>
     setMovieSelected(inx)
-
-  const handleDescriptionSelected = (href: string) =>
-    setDataSelected(href)
 
   const handleReadMore = () =>
     setReadMore(!isReadMore)
@@ -78,9 +76,9 @@ export default function Detail({ params }: any) {
 
       <SectionScreanShots
         screeanShotGame={screeanShotGame} />
-
     </React.Fragment>
     }
+
   </section >
     : <div className='min-h-[80vh] flex justify-center items-center'>
       <Spinner />

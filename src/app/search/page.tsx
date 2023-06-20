@@ -1,10 +1,12 @@
 'use client'
-import { useEffect, useRef, useState } from "react"
-import ListGameSearch from '@/components/ListGamesSearch/indext'
-import { getGame } from "@/services/getGame"
-import { MdKeyboardArrowDown } from 'react-icons/md'
-import useNearScreen from "@/hooks/useNearScreen"
 import CardFilter from "@/components/CardFilter"
+import ListGameSearch from "@/components/ListGamesSearch/indext"
+import useNearScreen from "@/hooks/useNearScreen"
+import { getGame } from "@/services/getGame"
+import { useEffect, useRef, useState } from "react"
+import { MdKeyboardArrowDown } from 'react-icons/md'
+import { useSearchParams } from 'next/navigation'
+
 
 const menuList = [
   {
@@ -22,8 +24,10 @@ const filterList = [{
   label: 'Plataforma'
 }]
 
-export default function Search({ params }: any) {
-  const { id } = params
+export default function Search() {
+  const searchParams = useSearchParams()
+  const keyword = searchParams.get('q')
+  const [keywordSave, setKeywordSave] = useState('')
   const [games, setGame] = useState<Array<any>>([])
   const [page, setPage] = useState<number>(1)
   const [totalPage, setTotalPage] = useState<number>(0)
@@ -32,7 +36,6 @@ export default function Search({ params }: any) {
   const refScrolling: any = useRef()
   const [isFirst, setFirst] = useState(false)
   const [recentAdd, setRecentAdd] = useState(false)
-
 
   const [genereFilter, setGenereFilter] = useState<Array<null | string>>([])
   const [platformFilter, setPlatformFilter] = useState<Array<string | null>>([])
@@ -49,27 +52,28 @@ export default function Search({ params }: any) {
   const handleShowMenu = () =>
     setShowMenu(!showMenu)
 
-
   useEffect(() => {
     if (!isFirst) setLoading(true)
+    if (keyword) {
+      keyword !== keywordSave && handleReset()
 
-    getGame.searchGame({
-      keyword: decodeURI(id),
-      page,
-      size: 30,
-      isRecent: recentAdd,
-      date: dateFilter,
-      platform: platformFilter,
-      genrer: genereFilter
-    }).then((res: any) => {
+      getGame.searchGame({
+        keyword: decodeURI(keyword),
+        page,
+        size: 30,
+        isRecent: recentAdd,
+        date: dateFilter,
+        platform: platformFilter,
+        genrer: genereFilter
+      }).then((res: any) => {
 
-      setGame(lastPage => res.results ? [...lastPage, ...res.results] : [...lastPage])
-      setTotalPage(Math.floor(res.count / 30))
-      !isFirst && setLoading(false)
-      !isFirst && setFirst(true)
-    })
-
-  }, [id, page, recentAdd, dateFilter, genereFilter, platformFilter])
+        setGame(lastPage => res.results ? [...lastPage, ...res.results] : [...lastPage])
+        setTotalPage(Math.floor(res.count / 30))
+        !isFirst && setLoading(false)
+        !isFirst && setFirst(true)
+      })
+    }
+  }, [keyword, page, recentAdd, dateFilter, genereFilter, platformFilter])
 
 
   useEffect(() => {
@@ -95,7 +99,7 @@ export default function Search({ params }: any) {
     if (genres) {
       const verify = genereFilter.findIndex(genre => genre == genres)
       if (verify != -1) {
-        const deleteFilter = genereFilter.filter(id => id !== genres)
+        const deleteFilter = genereFilter.filter(keyword => keyword !== genres)
         setGenereFilter(deleteFilter)
       } else {
         setGenereFilter(lastGenres => [...lastGenres, genres])
@@ -105,7 +109,7 @@ export default function Search({ params }: any) {
     if (platforms) {
       const verify = platformFilter.findIndex(plat => plat == platforms)
       if (verify != -1) {
-        const deleteFilter = platformFilter.filter(id => id !== platforms)
+        const deleteFilter = platformFilter.filter(keyword => keyword !== platforms)
         setPlatformFilter(deleteFilter)
       } else {
         setPlatformFilter(lastPlatform => [...lastPlatform, platforms])
@@ -115,7 +119,12 @@ export default function Search({ params }: any) {
   }
 
   return (
-    <div className="flex w-full gap-3">
+    <div className="flex w-full flex-col gap-3">
+
+      {
+        !keyword && <div className="min-h-[200px] w-full">HEllo world</div> 
+      }
+
       <div className="min-h-[100vh] flex-[4]">
         <div className="text-neutral-500 mb-7 mt-5 text-base font-medium relative gap-4 flex items-center"><span>Mostrar: </span>
           <div className="relative">

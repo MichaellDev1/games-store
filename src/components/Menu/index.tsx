@@ -26,7 +26,7 @@ const navLinks = [
   },
   {
     icon: <RiChatSmile3Fill />,
-    href: '/explore/random',
+    href: '/search',
     label: 'Explore'
   }, {
     icon: <FaUserFriends />,

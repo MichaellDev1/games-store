@@ -5,7 +5,6 @@ import { BsFillPlayFill } from 'react-icons/bs'
 
 export default function ImageGameOrTrailer({ isStartVideo, moviesGame, movieSelected, dataGame, setStartVideo, handleSelectedMovie }: any) {
   return <div className='flex-[3] flex flex-col w-full h-full'>
-
     <div className='h-full rounded-xl w-full bg-black relative overflow-hidden'>
       {isStartVideo && moviesGame.length > 0
         ? <ReactPlayer

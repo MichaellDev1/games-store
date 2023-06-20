@@ -6,7 +6,7 @@ export default function SectionScreanShots({ screeanShotGame }: any) {
   return <section className='w-full mt-20'>
     {
       screeanShotGame.length > 0
-      && <Carrousel title='Screenshots'>
+      && <Carrousel title=''>
         {
           screeanShotGame.map((screenshot: any) => (
             <li className={`flex-shrink-0 overflow-hidden outline-none relative rounded-[5px] list-none w-[300px] h-full`} key={screenshot.id}>

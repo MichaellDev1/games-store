@@ -14,7 +14,7 @@ export default function FormSearch() {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (keyword.trim() == '') return
-    return router.push(`/search/${keyword}`)
+    return router.push(`/search?q=${keyword}`)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
