@@ -15,9 +15,8 @@ export default function MenuUser({ handleShowMenu, showMenu, dataUser, setUser }
     setUser(newUserData)
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement> | any) => {
     if (e.target.files[0]) {
-      console.log(e.target.files[0])
       if (extencions.includes(e.target.files[0].type)) {
         const image = e.target.files[0]
         const reader = new FileReader()

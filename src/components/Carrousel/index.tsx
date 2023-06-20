@@ -21,7 +21,7 @@ export default function Carrousel({ children, title }: { children: React.ReactNo
   return (
     <div>
       <div className='w-full mb-3 flex justify-between'>
-        <h3 className='text-lg font-normal'>{title}</h3>
+        <h3 className='text-xl font-medium'>{title}</h3>
         <div className='flex items-center gap-2'>
           <div className='relative '>
             <button className='w-[30px] h-[30px] cursor-pointer outline-nones items-center justify-center flex rounded-full bg-[#202020] rotate-180 text-base focus:border text-white' onClick={() => handleScrollBtn(true)} style={{ boxShadow: '0px 1px 4px rgba(0,0,0,.1607843137)' }}>

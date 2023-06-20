@@ -12,7 +12,8 @@ function CardPreview({ name, id, background_image }: Props) {
   return <Link href={`/detail/${id}`} className='w-full flex gap-3 items-center py-3 hover:bg-neutral-600 transition-all px-5'>
     <div className='w-[33px] h-[43px] rounded-sm bg-slate-200 relative overflow-hidden'>
       <Image
-        src={background_image ? background_image : 'https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg'}
+        src={background_image ? background_image 
+        : 'https://www.charlotteathleticclub.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png'}
         alt='image backgrpund'
         width={200}
         height={200}

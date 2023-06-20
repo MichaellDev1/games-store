@@ -6,9 +6,9 @@ import { TbShoppingBag } from 'react-icons/tb'
 import Image from 'next/image'
 import FormSearch from '../FormSearch'
 import MenuUser from '../MenuUser'
-import './index.css'
 import { useContextAuth } from '@/context/AuthContext'
 import AlertElement from '../AlertElement'
+import './index.css'
 
 export default function Header() {
   const [showMenu, setMenu] = useState<boolean>(false)

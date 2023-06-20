@@ -1,42 +1,45 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import Carrousel from '../Carrousel'
-import ChildrenCarrousel from '../ChildrenCarrousel'
-import useNearScreen from '@/hooks/useNearScreen'
+import CarrouselOne from './CarrouselOne'
 import { getGame } from '@/services/getGame'
+import { LuGamepad2 } from 'react-icons/lu'
+import CardGenre from './CardGenre'
+
 
 export default function SectionRecentAdd() {
-  const [games, setGames] = useState<Array<any>>([])
-  const { isNear, refEle } = useNearScreen({ rootMargin: '300px' })
+  const [genres, setGenres] = useState<Array<any>>([])
 
   useEffect(() => {
-    if (isNear) {
-      getGame.getAllGames({ page: 40, size: 30 })
-        .then((data: any) => {
-          setGames(data.results)
-        })
-    }
-  }, [isNear])
+    getGame.getAllGenres()
+      .then((res: any) => {
+        setGenres(res.results.slice(0, 3))
+      })
+  }, [])
 
   return (
-    <section className='min-h-[30px] w-full' ref={refEle}>
-      {isNear && <Carrousel title='Recently added'>
-        {games.length > 0 && <>
-          <ChildrenCarrousel background_image={games[0]?.background_image} id={games[0].id} width='330px' name={games[0].name} />
-          {games.slice(1, games.length).map((game: any) => (
-            <ChildrenCarrousel key={game.id} background_image={game.background_image} id={game.id} name={game.name} width='190px' />))}
-        </>}
-      </Carrousel>}
+    <section className='min-h-[30px] w-full' >
+      <CarrouselOne title='Recomendado' page={30} size={30} />
 
-      <div className='mt-32'>
-        {isNear && <Carrousel title='Recommendation'>
-          {games.length > 0 && <>
-            <ChildrenCarrousel background_image={games[0]?.background_image} id={games[0].id} width='330px' name={games[0].name} />
-            {games.slice(1, games.length).map((game: any) => (
-              <ChildrenCarrousel key={game.id} background_image={game.background_image} id={game.id} name={game.name} width='190px' />))}
-          </>}
-        </Carrousel>}
+      <div className='min-h-[400px] w-full flex flex-col justify-center mt-24'>
+        <h3 className="text-2xl font-medium flex items-center gap-3 mb-5">
+          <span className="text-4xl"><LuGamepad2 /></span>
+          Your best genres are here
+        </h3>
+        {
+          genres.length > 0 && <div className='flex gap-4 mt-5'>
+            {
+              genres.map(genre => <CardGenre
+                key={genre.id}
+                image_background={genre.image_background}
+                name={genre.name}
+                slug={genre.slug} />)
+            }
+          </div>
+        }
       </div>
+
+      <CarrouselOne title='Action' page={40} size={30} />
+      <CarrouselOne title='Aventure' page={50} size={30} />
     </section>
   )
 }
