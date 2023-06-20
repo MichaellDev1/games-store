@@ -22,3 +22,10 @@ body {
     color: var(--text-color);
 }
 
+.alert-element {
+    display: none;
+}
+
+.content-alert:hover .alert-element {
+    display: flex;
+}

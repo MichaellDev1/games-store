@@ -1,10 +1,10 @@
 'use client'
 import React, { Suspense, useEffect, useState } from "react"
-const Hero = React.lazy(() => import('@/components/Hero'))
 import SectionOffers from '@/components/SectionOffers'
 import SectionRecentAdd from "@/components/SectionRecentAdd"
 import FreeGameSection from "@/components/FreeGameSection"
 import { getGame } from "@/services/getGame"
+const Hero = React.lazy(() => import('@/components/Hero'))
 
 export default function Home() {
   const [games, setGames] = useState<any>([])

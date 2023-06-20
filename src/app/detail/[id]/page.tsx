@@ -44,6 +44,7 @@ export default function Detail({ params }: any) {
 
     getGame.getDetailGame(id)
       .then((detail: any) => {
+        console.log(detail)
         setDataGame(detail)
 
         if (local) {
@@ -96,7 +97,7 @@ export default function Detail({ params }: any) {
               : <Image
                 src={moviesGame[movieSelected]
                   ? moviesGame[movieSelected].preview
-                  : dataGame
+                  : dataGame.background_image
                     ? dataGame.background_image
                     : ''}
                 priority={true}

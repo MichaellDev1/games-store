@@ -20,8 +20,6 @@ const filterList = [{
   label: 'Genero'
 }, {
   label: 'Plataforma'
-}, {
-  label: 'Fecha'
 }]
 
 export default function Search({ params }: any) {
@@ -36,8 +34,8 @@ export default function Search({ params }: any) {
   const [recentAdd, setRecentAdd] = useState(false)
 
 
-  const [generoFilter, setGeneroFilter] = useState<null | string>()
-  const [platformFilter, setPlatformFilter] = useState<null | string>()
+  const [genereFilter, setGenereFilter] = useState<Array<null | string>>([])
+  const [platformFilter, setPlatformFilter] = useState<Array<string | null>>([])
   const [dateFilter, setDateFilter] = useState<null | Date>()
 
   const { isNear } = useNearScreen({ isContinuous: true, rootMargin: '300px', externalRef: loading ? null : refScrolling })
@@ -57,32 +55,63 @@ export default function Search({ params }: any) {
 
     getGame.searchGame({
       keyword: decodeURI(id),
-      page, size: 30,
+      page,
+      size: 30,
       isRecent: recentAdd,
       date: dateFilter,
       platform: platformFilter,
-      genrer: generoFilter
+      genrer: genereFilter
     }).then((res: any) => {
-      setGame(lastPage => [...lastPage, ...res.results])
+
+      setGame(lastPage => res.results ? [...lastPage, ...res.results] : [...lastPage])
       setTotalPage(Math.floor(res.count / 30))
       !isFirst && setLoading(false)
       !isFirst && setFirst(true)
     })
 
-  }, [id, page, recentAdd, dateFilter, generoFilter, platformFilter])
+  }, [id, page, recentAdd, dateFilter, genereFilter, platformFilter])
 
 
   useEffect(() => {
     if (isNear) handleNextPage()
   }, [isNear])
 
+  const handleReset = (): void => {
+    setGame([])
+    setPage(1)
+    setTotalPage(0)
+  }
+
   const handleRecentAdd = (recent: boolean) => {
     if (recent !== recentAdd) {
-      setGame([])
-      setPage(1)
-      setTotalPage(0)
+      handleReset()
       setRecentAdd(recent)
     }
+  }
+
+  const handleFilter = ({ genres, platforms, date }: any): void => {
+    handleReset()
+
+    if (genres) {
+      const verify = genereFilter.findIndex(genre => genre == genres)
+      if (verify != -1) {
+        const deleteFilter = genereFilter.filter(id => id !== genres)
+        setGenereFilter(deleteFilter)
+      } else {
+        setGenereFilter(lastGenres => [...lastGenres, genres])
+      }
+    }
+
+    if (platforms) {
+      const verify = platformFilter.findIndex(plat => plat == platforms)
+      if (verify != -1) {
+        const deleteFilter = platformFilter.filter(id => id !== platforms)
+        setPlatformFilter(deleteFilter)
+      } else {
+        setPlatformFilter(lastPlatform => [...lastPlatform, platforms])
+      }
+    }
+    date && setDateFilter(date !== dateFilter ? date : null)
   }
 
   return (
@@ -112,10 +141,10 @@ export default function Search({ params }: any) {
           && <div className="w-full h-[10px]" ref={refScrolling}></div>}
       </div>
       <div className="p-5 flex-1">
-        <h3>Filtros(0)</h3>
+        <h3>Filtros({genereFilter.length + platformFilter.length})</h3>
 
         <ul className="flex flex-col gap">
-          {filterList.map(({ label }) => <CardFilter key={label} label={label} filterList={filterList} />)}
+          {filterList.map(({ label }) => <CardFilter key={label} genereFilter={genereFilter} label={label} platformFilter={platformFilter} filterList={filterList} handleFilter={handleFilter} />)}
         </ul>
       </div>
     </div>

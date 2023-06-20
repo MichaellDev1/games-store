@@ -15,7 +15,7 @@ export default function MenuSearchChange({ keywordDebounce, keyword = '' }: Prop
 
   useEffect(() => {
     if (keyword !== '') {
-      getGame.searchGame({ keyword: keywordDebounce, page: 1, size: 4, isRecent: false})
+      getGame.searchGame({ keyword: keywordDebounce, page: 1, size: 4, isRecent: false, date: null, genrer: [], platform: [] })
         .then((data: any) => {
           setGames(data.results)
           setLoading(true)
@@ -29,22 +29,25 @@ export default function MenuSearchChange({ keywordDebounce, keyword = '' }: Prop
     }
   }, [keyword])
 
+
   return (
-    <div className='w-full  bg-neutral-800 border-neutral-600 border absolute z-10 rounded-lg p-5 flex-col gap-4 top-12 backdrop-blur-sm menu-preview hidden shadow-xl '>
+    <div className='w-full  bg-neutral-800 border-neutral-600 border absolute z-10 overflow-hidden rounded-lg flex-col  top-12 backdrop-blur-sm menu-preview hidden shadow-xl '>
       {
         games.length > 0
-          ? games.map(game => (
+          ? games.map((game, inx) => (
             <Suspense key={game.id} fallback={<div className='w-full py-4 bg-neutral-800'></div>}>
               <CardPreView
                 background_image={game.background_image}
                 id={game.id}
-                name={game.name} />
+                name={game.name}
+              />
             </Suspense>
-          )) : loading ? <h3 className='text-xs font-normal'>Loading...</h3> : <p>No se ha encontrado resultado para la busqueda...</p>
+          )) : loading
+            ? <h3 className='text-xs font-normal p-5'>Loading...</h3>
+            : <p className='px-5'>No se ha encontrado resultado para la busqueda...</p>
       }
-
       {games.length > 0 &&
-        <Link href={`/search/${keyword}`} className='text-sm font-normal mt-2'>View more</Link>}
+        <Link href={`/search/${keyword}`} className='text-sm font-normal  hover:bg-neutral-600 py-5 transition-all px-5'>View more</Link>}
     </div>
   )
 }

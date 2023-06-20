@@ -27,9 +27,9 @@ export default function Footer() {
         ))
       }
 
-      <span className='min-w-[300px] absolute h-[1px] bg-[#ff6b27] -left-[305px]' style={{background: 'linear-gradient(190deg, #ffad18, transparent)'}}></span>
+      <span className='min-w-[300px] absolute h-[1px] bg-neutral-600 -left-[305px]' style={{background: 'linear-gradient(190deg, rgb(49 49 49), transparent)'}}></span>
 
-      <span className='min-w-[300px] absolute h-[1px] bg-[#ff6b27] -right-[305px]' style={{background: 'linear-gradient(45deg, #ffad18, transparent)'}}></span>
+      <span className='min-w-[300px] absolute h-[1px] bg-neutral-600 -right-[305px]' style={{background: 'linear-gradient(45deg, rgb(49 49 49), transparent)'}}></span>
     </ul>
     <h4 className='text-xs'>Echo con 🧡 por Michael Santucho</h4>
   </footer>

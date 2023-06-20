@@ -14,8 +14,14 @@ export const getGame = {
     return fetch(`${api_url}/platforms?key=${api_key}`)
       .then(res => res.json())
   },
-  searchGame: ({ keyword, page, size = 30, isRecent = false, date = null, platform = null, genrer = null }: { keyword: string, page: number, size: number, isRecent: boolean, genrer: null | string | undefined, platform: string | null | undefined, date: null | Date | undefined }): Promise<Response> => {
-    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}${isRecent ? '&ordering=added' : ''}&key=${api_key}`)
+  searchGame: ({ keyword, page, size = 30, isRecent = false, date = null, platform = [], genrer = [] }: { keyword: string, page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined, date: null | Date | undefined }): Promise<Response> => {
+    return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}${isRecent
+      ? '&ordering=added'
+      : ''}${platform.length > 0
+        ? `&platforms=${platform.length > 1 ? platform.map(platform => platform) : platform[0] ? platform[0] : ''}`
+        : ''}${genrer.length > 0
+          ? `&genres=${genrer.length > 1 ? genrer.map(genre => genre) : genrer[0] ? genrer[0] : ''}`
+          : ''}&key=${api_key}`)
       .then(res => res.json())
   },
   getAdditionsGame: ({ keyword }: { keyword: string }): Promise<Response> => {
@@ -36,6 +42,10 @@ export const getGame = {
   },
   getByGenres: ({ id, page_size, page }: any) => {
     return fetch(`${api_url}/games?genres=${id}&page_size=${page_size}&page=${page}&key=${api_key}`)
+      .then(res => res.json())
+  },
+  getAllGenres: () => {
+    return fetch(`${api_url}/genres?key=${api_key}`)
       .then(res => res.json())
   }
 }
