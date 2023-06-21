@@ -20,17 +20,8 @@ const platforms = [{
   id: '1'
 },]
 
-export default function CardFilter({ label, filterList, handleFilter, platformFilter, genereFilter}: any) {
+export default function CardFilter({ label, filterList, handleFilter, platformFilter, genderFilter, genderAll }: any) {
   const [showOptions, setOptions] = useState(false)
-  const [genresAll, setAllGenres] = useState<Array<any>>([])
-
-  useEffect(() => {
-    getGame.getAllGenres()
-      .then(res => {
-        setAllGenres(res.results)
-      })
-  }, [])
-
   const handleShowMoreOptions = () =>
     setOptions(!showOptions)
 
@@ -45,12 +36,12 @@ export default function CardFilter({ label, filterList, handleFilter, platformFi
       showOptions && <div className='w-full min-h-[200px] '>
         {label == filterList[0].label && <div>
 
-          {genresAll.length > 0 && <ul className='flex flex-col gap-2 text-sm font-light text-neutral-300 w-full  mt-5'>
-            {genresAll.map((genre: any) => (
-              <li key={genre.id} className={`py-3 px-5 cursor-pointer flex items-center justify-between rounded-[3px] w-full ${genereFilter.includes(genre.id) ? 'bg-neutral-800 text-white' : ''}`} onClick={() => handleFilter({ genres: genre.id })}>
-                <span>{genre.name}</span>
+          {genderAll.length > 0 && <ul className='flex flex-col gap-2 text-sm font-light text-neutral-300 w-full  mt-5'>
+            {genderAll.map((gender: any) => (
+              <li key={gender.id} className={`py-3 px-5 cursor-pointer flex items-center justify-between rounded-[3px] w-full ${genderFilter.includes(gender.id) ? 'bg-neutral-800 text-white' : ''}`} onClick={() => handleFilter({ type: 'gender', payload: gender.id })}>
+                <span>{gender.name}</span>
                 {
-                  genereFilter.includes(genre.id) && <span>
+                  genderFilter.includes(gender.id) && <span>
                     <FiCheck />
                   </span>
                 }
@@ -64,7 +55,7 @@ export default function CardFilter({ label, filterList, handleFilter, platformFi
         {label == filterList[1].label && <div>
           <ul className='flex flex-col gap-2 text-sm font-light text-neutral-300 w-full  mt-5'>
             {platforms.map(({ label, id }) => (
-              <li key={id} className={`py-3 px-5 cursor-pointer flex items-center justify-between rounded-[3px] w-full ${platformFilter.includes(id) ? 'bg-neutral-800 text-white' : ''}`} onClick={() => handleFilter({ platforms: id })}>
+              <li key={id} className={`py-3 px-5 cursor-pointer flex items-center justify-between rounded-[3px] w-full ${platformFilter.includes(id) ? 'bg-neutral-800 text-white' : ''}`} onClick={() => handleFilter({ type: 'platform', payload: id })}>
                 <span>{label}</span>
                 {
                   platformFilter.includes(id) && <span>

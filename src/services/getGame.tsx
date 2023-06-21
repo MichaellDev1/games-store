@@ -2,7 +2,7 @@ import { api_url } from "./config"
 const api_key = process.env.NEXT_PUBLIC_API_KEY
 
 export const getGame = {
-  getAllGames: ({ page, size = 30, isRecent = false, date = null, platform = [], genrer = [] }: { page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined, date: null | Date | undefined }): Promise<Response> => {
+  getAllGames: ({ page, size = 30, isRecent = false, platform = [], genrer = [] }: { page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined }): Promise<Response> => {
     return fetch(`${api_url}/games?page_size=${size}&page=${page}${isRecent
       ? '&ordering=added'
       : ''}${platform.length > 0
@@ -20,7 +20,7 @@ export const getGame = {
     return fetch(`${api_url}/platforms?key=${api_key}`)
       .then(res => res.json())
   },
-  searchGame: ({ keyword, page, size = 30, isRecent = false, date = null, platform = [], genrer = [] }: { keyword: string, page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined, date: null | Date | undefined }): Promise<Response> => {
+  searchGame: ({ keyword, page, size = 30, isRecent = false, platform = [], genrer = [] }: { keyword: string, page: number, size: number, isRecent: boolean, genrer: Array<string | null> | undefined, platform: Array<string | null> | undefined }): Promise<Response> => {
     return fetch(`${api_url}/games?search=${keyword}&page_size=${size}&page=${page}${isRecent
       ? '&ordering=added'
       : ''}${platform.length > 0
