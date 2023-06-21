@@ -1,0 +1,22 @@
+.info-game {
+    opacity: 0;
+}
+
+.image-card:hover .info-game {
+    opacity: 1;
+    transition: opacity .1s;
+}
+
+.button-favorite {
+    opacity: 0
+}
+
+.card-search:hover .button-favorite {
+    opacity: 1;
+}
+
+@media (max-width: 700px) {
+    .button-favorite {
+        opacity: 1;
+    }
+}

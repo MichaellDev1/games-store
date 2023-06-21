@@ -51,6 +51,13 @@ const searchReducer = (state = initialStateSearch(), action: any = {}) => {
           : [...state.games]
       }
     }
+    case "RESET_GAME": {
+      const reset: Array<any> = []
+      return {
+        ...state,
+        games: reset
+      }
+    }
     default: return state
   }
 }

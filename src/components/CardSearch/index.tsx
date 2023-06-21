@@ -3,43 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { MdOutlineFavorite, MdFavoriteBorder } from 'react-icons/md'
+import './index.css'
 
 function CardSearch({ id, background_image, name, handleFavoriteDesible = null }: any) {
   const { handleFavorite, isFavorite, favorites } = useFavorite()
 
   return (
     <div className='relative card-search'>
-      <style jsx>
-        {
-          `
-          .info-game  {
-            opacity: 0;
-          }
-
-          .image-card:hover .info-game {
-            opacity: 1;
-            transition: opacity .1s;
-          }
-
-          .button-favorite {
-            opacity: 0
-          }
-
-          .card-search:hover .button-favorite {
-            opacity: 1;
-          }
-
-          @media (max-width: 700px){
-            .button-favorite {
-              opacity: 1;
-            }
-          }
-
-          `
-        }
-
-      </style>
-
       <button
         className={`absolute button-favorite top-2 right-2 bg-[#00000080] text-base rounded-full p-1 z-10`}
         style={{ opacity: isFavorite ? '1' : '' }}

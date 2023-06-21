@@ -1,5 +1,4 @@
 'use client'
-import CardFilter from "@/components/CardFilter"
 import ListGameSearch from "@/components/ListGamesSearch/indext"
 import useNearScreen from "@/hooks/useNearScreen"
 import { getGame } from "@/services/getGame"
@@ -9,9 +8,10 @@ import { useSearchParams } from 'next/navigation'
 import Carrousel from "@/components/Carrousel"
 import Image from "next/image"
 import Link from "next/link"
-import { initialStateSearch, searchReducer } from "@/reducers/searchReducer"
-import { filterList, menuList } from "./data"
+import { menuList } from "./data"
 import useLoading from "@/hooks/useLoading"
+import { initialStateSearch, searchReducer } from "@/reducers/searchReducer"
+import SectionFilter from "@/components/SectionFilter"
 
 export default function Search() {
   const [page, setPage] = useState<number>(1)
@@ -28,37 +28,34 @@ export default function Search() {
   const { isNear } = useNearScreen({ isContinuous: true, rootMargin: '300px', externalRef: loading ? null : refScrolling })
   const [state, dispatch]: any = useReducer(searchReducer, initialStateSearch())
 
-
   useEffect(() => {
     if (!isFirst) setLoading(true)
+
+    const options = {
+      keyword: decodeURI(keyword),
+      page,
+      size: 30,
+      isRecent: recentAdd,
+      platform: state.platformFilter,
+      genrer: genrerSelected && state.genderFilter.length === 0 ? [genrerSelected] : !genrerSelected || state.genderFilter.length == 0 ? [] : [...state.genderFilter, genrerSelected]
+    }
+
     if (keyword) {
-      getGame.searchGame({
-        keyword: decodeURI(keyword),
-        page,
-        size: 30,
-        isRecent: recentAdd,
-        platform: state.platformFilter,
-        genrer: genrerSelected && state.genderFilter.length === 0 ? [genrerSelected] : !genrerSelected || state.genderFilter.length == 0 ? [] : [...state.genderFilter, genrerSelected]
-      }).then((res: any) => {
+      getGame.searchGame(options).then((res: any) => {
         dispatch({ type: "ADD_GAMES", payload: res.results })
         setTotalPage(Math.floor(res.count / 30))
         !isFirst && setLoading(false)
         !isFirst && setFirst(true)
       })
     } else {
-      getGame.getAllGames({
-        page,
-        size: 30,
-        isRecent: recentAdd,
-        platform: state.platformFilter,
-        genrer: genrerSelected && state.genderFilter.length === 0 ? [genrerSelected] : !genrerSelected || state.genderFilter.length == 0 ? [] : [...state.genderFilter, genrerSelected]
-      }).then((res: any) => {
+      getGame.getAllGames(options).then((res: any) => {
         dispatch({ type: "ADD_GAMES", payload: res.results })
         setTotalPage(Math.floor(res.count / 30))
         !isFirst && setLoading(false)
         !isFirst && setFirst(true)
       })
     }
+
   }, [keyword, page, recentAdd, state.genderFilter, state.platformFilter, genrerSelected])
 
   useEffect(() => {
@@ -75,9 +72,8 @@ export default function Search() {
   }, [state.games.length, totalPage])
 
   useEffect(() => {
-    if (isNear) handleNextPage()
+    if (isNear && refScrolling.current) handleNextPage()
   }, [isNear, handleNextPage])
-
 
   // FUNCTIONS
   const handleShowMenu = () =>
@@ -91,6 +87,7 @@ export default function Search() {
   const handleRecentAdd = (recent: boolean) => {
     if (recent !== recentAdd) {
       handleReset()
+      dispatch({ type: "RESET_GAME" })
       setRecentAdd(recent)
     }
   }
@@ -98,6 +95,7 @@ export default function Search() {
   const handleFilter = ({ type, payload }: { type: string, payload: string }) => {
     const selected = type == 'platform' ? state.platformFilter : state.genderFilter
     const verify = selected.findIndex((id: string) => id == payload)
+
     if (verify != -1) {
       dispatch({
         type: type == 'platform'
@@ -119,19 +117,21 @@ export default function Search() {
         !keyword && <div className="mt-12 w-full">
           <Carrousel title="Genders" height="270px">
             {state.genres.map((data: any) => (
-              <Link href={`/search?gender=${data.id}`} className="w-[230px] p-5 shrink-0 bg-neutral-900 rounded-md overflow-hidden text-center relative block h-full" key={data.id}>
+              <Link href={`/search?gender=${data.id}`} className="w-[230px] p-5 shrink-0 bg-neutral-900 rounded-md overflow-hidden text-center relative block h-full" key={data.id} onClick={() => {
+                setPage(1)
+                dispatch({ type: 'RESET_GAME' })
+              }}>
                 <div className="h-[120px] w-full overflow-hidden rounded-lg mb-2">
-                  <Image src={data.image_background} alt={`genre ${data.name}`} width={200} height={200} className="w-full h-full object-cover" />
+                  <Image src={data.image_background} alt={`genre ${data.name}`} width={200} height={200} className="w-full h-full object-cover" priority />
                 </div>
                 <span className="font-normal text-[18px]">{data.name}</span>
               </Link>
             ))}
           </Carrousel>
-
         </div>
       }
 
-      <div className="flex gap-3 w-full">
+      <div className="flex gap-3 w-full min-h-[200vh]">
         <div className="min-h-[100vh] flex-[4]">
           <div className="text-neutral-500 mb-7 mt-5 text-base font-medium relative gap-4 flex items-center"><span>Mostrar: </span>
             <div className="relative">
@@ -144,26 +144,29 @@ export default function Search() {
               {showMenu && <div className="absolute w-[230px]  flex flex-col justify-start items-start overflow-hidden  rounded-md shadow-md left-0 bg-neutral-800 top-7 z-20 text-white">
                 {
                   menuList.map(({ label, recent }) => (
-                    <button key={label} className="py-3 w-full text-start hover:bg-neutral-600 transition-all px-5" onClick={() => handleRecentAdd(recent)}>{label}</button>
+                    <button
+                      key={label}
+                      className="py-3 w-full text-start hover:bg-neutral-600 transition-all px-5"
+                      onClick={() => handleRecentAdd(recent)}>
+                      {label}
+                    </button>
                   ))
                 }
               </div>}
             </div>
           </div>
 
-          <ListGameSearch
-            games={state.games} />
-
+          <ListGameSearch games={state.games} />
           {state.games.length <= (totalPage * 30)
             && <div className="w-full h-[10px]" ref={refScrolling}></div>}
         </div>
-        <div className="p-5 flex-1">
-          <h3>Filtros({state.genderFilter.length + state.platformFilter.length})</h3>
 
-          <ul className="flex flex-col gap">
-            {filterList.map(({ label }) => <CardFilter key={label} genderFilter={state.genderFilter} label={label} platformFilter={state.platformFilter} filterList={filterList} handleFilter={handleFilter} genderAll={state.genres} />)}
-          </ul>
-        </div>
+        <SectionFilter
+          handleFilter={handleFilter}
+          genderFilter={state.genderFilter}
+          platformFilter={state.platformFilter}
+          genderAll={state.genres} />
+
       </div>
     </div>
   )
